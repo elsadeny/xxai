@@ -56,7 +56,7 @@ export function DashboardLayout({ sx, children, header, data }) {
        *************************************** */
       headerSection={
         <HeaderSection
-          layoutQuery={layoutQuery}
+          layoutQuery={layoutQuery}Jaydon
           disableElevation={isNavVertical}
           slotProps={{
             toolbar: {
@@ -129,18 +129,23 @@ export function DashboardLayout({ sx, children, header, data }) {
                     }}
                   />
                 )}
-                {/* -- Workspace popover -- */}
+                {
+                
+                <Searchbar data={navData} />
+                
+                /* -- Workspace popover 
                 <WorkspacesPopover
                   data={_workspaces}
                   sx={{ color: 'var(--layout-nav-text-primary-color)' }}
                 />
+                -- */}
               </>
             ),
             rightArea: (
               <Box display="flex" alignItems="center" gap={{ xs: 0, sm: 0.75 }}>
                 {/* -- Searchbar -- */}
-                <Searchbar data={navData} />
-                {/* -- Language popover -- */}
+                
+                {/* -- Language popover
                 <LanguagePopover
                   data={[
                     { value: 'en', label: 'English', countryCode: 'GB' },
@@ -150,11 +155,13 @@ export function DashboardLayout({ sx, children, header, data }) {
                     { value: 'ar', label: 'Arabic', countryCode: 'SA' },
                   ]}
                 />
-                {/* -- Notifications popover -- */}
+                 -- */}
+                {/* -- Notifications popover 
                 <NotificationsDrawer data={_notifications} />
-                {/* -- Contacts popover -- */}
+                 -- Contacts popover -- 
                 <ContactsPopover data={_contacts} />
-                {/* -- Settings button -- */}
+                 -- Settings button -- 
+                -- */}
                 <SettingsButton />
                 {/* -- Account drawer -- */}
                 <AccountDrawer data={_account} />

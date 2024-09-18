@@ -10,8 +10,6 @@ import Divider from '@mui/material/Divider';
 import { varAlpha, bgGradient } from 'src/theme/styles';
 
 
-import { orderSave } from '../../../auth/context/jwt';
-import { useAuthContext } from '../../../auth/hooks';
 
 // ----------------------------------------------------------------------
 

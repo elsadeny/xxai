@@ -44,12 +44,14 @@ export const navData = [
    * Overview
    */
   {
-    subheader: 'Overview 6.0.0',
+    subheader: '网络管理',
     items: [
-      { title: 'One', path: paths.dashboard.root, icon: ICONS.dashboard },
-      { title: 'Two', path: paths.dashboard.two, icon: ICONS.ecommerce },
-      { title: 'Three', path: paths.dashboard.three, icon: ICONS.analytics },
+      { title: '面板', path: paths.dashboard.root, icon: ICONS.dashboard },
+      { title: '购买', path: paths.dashboard.two, icon: ICONS.ecommerce },
+      { title: '订单', path: paths.dashboard.three, icon: ICONS.analytics },
     ],
+
+
   },
   /**
    * Management
@@ -62,7 +64,7 @@ export const navData = [
         path: paths.dashboard.group.root,
         icon: ICONS.user,
         children: [
-          { title: 'Four', path: paths.dashboard.group.root },
+          { title: 'My Orders', path: paths.dashboard.group.root },
           { title: 'Five', path: paths.dashboard.group.five },
           { title: 'Six', path: paths.dashboard.group.six },
         ],

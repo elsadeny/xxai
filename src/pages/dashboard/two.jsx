@@ -18,10 +18,10 @@ export default function Page() {
   useEffect(() => {
     async function fetchPlans() {
       try {
-        const response = await fetch('https://flycloud.warbller.com/api/v1/user/plan/fetch', {
+        const response = await fetch('https://xx-ai.uk/api/v1/user/plan/fetch', {
           method: 'GET',
           headers: {
-            'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTQsInNlc3Npb24iOiI3MGJjMTQ0MDNkODBiZmNkZDliOThmZDYzZGJlODE3OSJ9.V2QwH5v3AW0fAJGhbtbl_saP6m-j1wCJm_lxQqtFhdo', // Use the same token from curl
+            'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NDM3Niwic2Vzc2lvbiI6ImRmODAxNTI3MDA4YWU3NzNjMTRkNTYwZWE0ZGRjMmNmIn0.hpQy9BFt792hkIbm5J16IKLhl6TSPhxPTmfYvdXo4Fw', // Use the same token from curl
             'Content-Type': 'application/json'
           }
         });

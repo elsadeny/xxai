@@ -17,6 +17,7 @@ const PageFour = lazy(() => import('src/pages/dashboard/four'));
 const PageFive = lazy(() => import('src/pages/dashboard/five'));
 const PageSix = lazy(() => import('src/pages/dashboard/six'));
 
+const Payment = lazy(() =>import('src/pages/dashboard/payment'));
 // ----------------------------------------------------------------------
 
 const layoutContent = (
@@ -43,6 +44,12 @@ export const dashboardRoutes = [
           { path: 'six', element: <PageSix /> },
         ],
       },
+      {
+        path:'payment',
+        children: [
+          { element:<Payment />, index:true},
+        ]
+      }
     ],
   },
 ];
