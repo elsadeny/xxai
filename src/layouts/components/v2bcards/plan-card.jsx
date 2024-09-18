@@ -59,10 +59,10 @@ export function PlanWidgetCard({
         <Box sx={{ typography: 'h3' }}>{name}</Box>
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        {row('Monthly', monthly)}
-        {row('Quartely', quarterly)}
-        {row('Semi Annually', semi_annually)}
-        {row('Annually',annually)}
+        {monthly > 0 && row('Monthly', monthly)}
+        {quarterly > 0 && row('Quarterly', quarterly)}
+        {semi_annually > 0 && row('Semi Annually', semi_annually)}
+        {annually > 0 && row('Annually', annually)}
 
         <Box sx={{ gap: 2, display: 'flex' }}>
           <Button fullWidth variant="contained" color="warning" onClick={handleBuySubscription}>

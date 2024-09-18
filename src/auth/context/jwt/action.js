@@ -63,3 +63,24 @@ export const signOut = async () => {
     throw error;
   }
 };
+
+
+/** **************************************
+ * Order save
+ *************************************** */
+
+export const orderSave = async({ period,plan_id}) => {
+  try {
+    const params = { period,plan_id};
+
+    console.log(params);
+
+    const res = await axios.post(endpoints.order.save,params);
+
+    // let check what returned here
+    console.log(res);
+  }catch(error){
+    console.error(error);
+    throw error;
+  }
+};

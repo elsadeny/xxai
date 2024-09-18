@@ -54,6 +54,7 @@ export function PayCircleView({
                 <Divider sx={{ borderStyle: 'dashed' }} />
                 <List>
                     {rows.map((row, index) => (
+                        row.value > 0 && (
                         <Irow
                             key={index}
                             label={row.label}
@@ -61,6 +62,7 @@ export function PayCircleView({
                             isSelected={selectedRow === index}
                             onClick={() => onRowSelect(index)}  // Notify parent of selection
                         />
+                        )
                     ))}
                 </List>
             </Box>
