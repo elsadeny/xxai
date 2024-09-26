@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 
 import { CONFIG } from 'src/config-global';
-import { SimpleOrderTable } from 'src/layouts/components/v2bcards/order/view/simple-order';
+import { EmptyContent } from 'src/layouts/components/empty-content';
 
 import { DashboardContent } from 'src/layouts/dashboard';
 
@@ -18,7 +18,9 @@ export default function Page() {
       </Helmet>
 
       <DashboardContent>
-      <SimpleOrderTable />
+
+        <EmptyContent />
+      
       </DashboardContent>
     </>
   );

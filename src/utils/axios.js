@@ -43,6 +43,10 @@ export const endpoints = {
     signUpr: '/api/auth/sign-up',
 
   },
+  user: {
+    orderFetch: '/api/v1/user/order/fetch',
+    orderSave: '/api/v1/user/order/save'
+  },
   mail: {
     list: '/api/mail/list',
     details: '/api/mail/details',

@@ -80,7 +80,7 @@ export const orderSave = async({ period,plan_id}) => {
 
     console.log(params);
 
-    const res = await axios.post(endpoints.order.save,params);
+    const res = await axios.post(endpoints.user.orderSave,params);
 
     // let check what returned here
     console.log(res);

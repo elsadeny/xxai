@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Table from '@mui/material/Table';
@@ -13,42 +13,44 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Label } from 'src/components/label';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-
-// Mock order data
-const orders = [
-  { id: 1, orderNumber: '1001', cycle: 'Monthly', orderAmount: '$100', status: 'completed', createdAt: '2024-09-20 10:00 AM' },
-  { id: 2, orderNumber: '1002', cycle: 'Weekly', orderAmount: '$50', status: 'pending', createdAt: '2024-09-21 11:30 AM' },
-  { id: 3, orderNumber: '1003', cycle: 'Monthly', orderAmount: '$75', status: 'cancelled', createdAt: '2024-09-22 12:15 PM' },
-  { id: 4, orderNumber: '1004', cycle: 'Yearly', orderAmount: '$500', status: 'completed', createdAt: '2024-09-23 01:00 PM' },
-  { id: 5, orderNumber: '1005', cycle: 'Monthly', orderAmount: '$120', status: 'pending', createdAt: '2024-09-24 02:45 PM' },
-];
-
-// Define the table head columns
-const TABLE_HEAD = [
-  { id: 'orderNumber', label: 'Order Number', width: '15%' },
-  { id: 'cycle', label: 'Cycle', width: '15%' },
-  { id: 'orderAmount', label: 'Order Amount', width: '20%' },
-  { id: 'status', label: 'Order Status', width: '20%' },
-  { id: 'createdAt', label: 'Creation Time', width: '25%' },
-  { id: '', width: '5%' }, // Narrow width for actions
-];
-
-// Define status options for the tabs
-const STATUS_OPTIONS = [
-  { value: 'all', label: 'All' },
-  { value: 'pending', label: 'Pending' },
-  { value: 'completed', label: 'Completed' },
-  { value: 'cancelled', label: 'Cancelled' },
-];
+import axios, { endpoints } from 'src/utils/axios';
+import { TABLE_HEAD, STATUS_OPTIONS, getStatusText } from 'src/layouts/components/table'; // Import constants
+import { fYuan } from 'src/utils/format-number';
 
 export function SimpleOrderTable() {
   const [status, setStatus] = useState('all');
+  const [orders, setOrders] = useState([]); // Initially empty orders
   const [anchorEl, setAnchorEl] = useState(null);
   const [currentOrder, setCurrentOrder] = useState(null);
 
+  // Fetch orders from API
+  const fetchOrders = async () => {
+    try {
+      const res = await axios.get(endpoints.user.orderFetch); // Fetch data
+      const fetchedOrders = res.data.data.map((order) => ({
+        id: order.trade_no,
+        orderNumber: order.trade_no,
+        cycle: order.period,
+        orderAmount: fYuan(order.total_amount),
+        createdAt: new Date(order.created_at * 1000).toLocaleString(), // Convert to human-readable date
+        status: getStatusText(order.status), // Convert status to text
+      }));
+      console.log("Fetched Orders:", fetchedOrders); // Log the fetched orders
+      setOrders(fetchedOrders); // Update state with fetched orders
+    } catch (error) {
+      console.error('Error fetching orders:', error);
+    }
+  };
+
+  // useEffect to fetch orders on component mount
+  useEffect(() => {
+    fetchOrders(); // Fetch orders when component mounts
+  }, []); // Empty dependency array means this effect runs once on mount
+
   // Handle status tab change
-  const handleStatusChange = (event, newValue) => {
+  const handleStatusChange = async (event, newValue) => {
     setStatus(newValue);
+    await fetchOrders(); // Fetch orders on status change
   };
 
   // Handle menu open
@@ -63,20 +65,32 @@ export function SimpleOrderTable() {
     setCurrentOrder(null);
   };
 
-  // Count orders based on their status
-  const getStatusCounts = () =>
-    STATUS_OPTIONS.map(option => ({
-      ...option,
-      count: orders.filter(order => option.value === 'all' || order.status === option.value).length,
-    }));
-
-  const statusCounts = getStatusCounts();
-
+  const navigate = useNavigate();
   // Filter orders based on status
-  const filteredOrders = orders.filter(order => {
+  const filteredOrders = orders.filter((order) => {
     if (status === 'all') return true;
     return order.status === status;
   });
+
+  // Count orders based on their status
+const getStatusCounts = () => {
+  const counts = STATUS_OPTIONS.map(option => {
+    const count = orders.filter(order => option.value === 'all' || order.status === option.value).length;
+
+    // Log the current option and its count
+    console.log(`Counting for option: ${option.label}, Status: ${option.value}, Count: ${count}`);
+    
+    return {
+      ...option,
+      count,
+    };
+  });
+
+  console.log("Status Counts:", counts); // Log final counts for all options
+  return counts;
+};
+
+const statusCounts = getStatusCounts();
 
   return (
     <Card>
@@ -91,21 +105,22 @@ export function SimpleOrderTable() {
             borderColor: 'divider',
           }}
         >
-          {statusCounts.map(option => (
+          {statusCounts.map((option) => (
             <Tab
               key={option.value}
               value={option.value}
-              label={`${option.label} (${option.count})`} // Include count next to label
+              label={option.label}
               icon={
                 <Label
                   color={
                     (option.value === 'completed' && 'success') ||
                     (option.value === 'pending' && 'warning') ||
                     (option.value === 'cancelled' && 'error') ||
+                    (option.value === 'discounted' && 'error') ||
                     'default'
                   }
                 >
-                  {option.label}
+                  {option.count}
                 </Label>
               }
               iconPosition="end"
@@ -119,12 +134,12 @@ export function SimpleOrderTable() {
         size="medium"
         sx={{
           minWidth: 960,
-          tableLayout: 'fixed',
+          tableLayout: 'fixed', // Ensures fixed layout
         }}
       >
         <TableHead>
           <TableRow>
-            {TABLE_HEAD.map(column => (
+            {TABLE_HEAD.map((column) => (
               <TableCell
                 key={column.id}
                 style={{ width: column.width }}
@@ -136,7 +151,7 @@ export function SimpleOrderTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {filteredOrders.map(order => (
+          {filteredOrders.map((order) => (
             <TableRow key={order.id}>
               <TableCell>{order.orderNumber}</TableCell>
               <TableCell>{order.cycle}</TableCell>
@@ -145,19 +160,27 @@ export function SimpleOrderTable() {
                 <Label color={
                   (order.status === 'completed' && 'success') ||
                   (order.status === 'pending' && 'warning') ||
-                  (order.status === 'cancelled' && 'error')}
+                  (order.status === 'cancelled' && 'error') || 
+                  (order.status === 'discounted' && 'error')}
                 >
                   {order.status}
                 </Label>
               </TableCell>
               <TableCell>{order.createdAt}</TableCell>
               <TableCell>
-                <IconButton onClick={event => handleMenuOpen(event, order)}>
+                <IconButton onClick={(event) => handleMenuOpen(event, order)}>
                   <MoreVertIcon />
                 </IconButton>
               </TableCell>
             </TableRow>
           ))}
+          {filteredOrders.length === 0 && (
+            <TableRow>
+              <TableCell colSpan={TABLE_HEAD.length} align="center">
+                No orders found
+              </TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
 
@@ -169,8 +192,9 @@ export function SimpleOrderTable() {
       >
         <MenuItem onClick={() => {
           // Preview action
-          alert(`Previewing order ${currentOrder?.orderNumber}`);
-          handleMenuClose();
+          navigate('/order/order-details', {
+            
+          });
         }}>
           Preview
         </MenuItem>

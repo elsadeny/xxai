@@ -10,6 +10,7 @@ import Divider from '@mui/material/Divider';
 import { varAlpha, bgGradient } from 'src/theme/styles';
 import { useAuthContext } from 'src/auth/hooks';
 import { orderSave } from 'src/auth/context/jwt';
+import { Alert } from '@mui/material';
 
 
 
@@ -80,6 +81,12 @@ export function OrderCreateCard({ name,price,plan,cycle, title, sx, ...other}) {
           bgcolor: varAlpha(theme.vars.palette.common.blackChannel, 0.12),
         }}
       />
+
+      {!!errorMsg && (
+        <Alert severity="error" sx={{ mb: 3 }}>
+          {errorMsg}
+        </Alert>
+      )}
 
       <Card sx={{ p: 3, mt: 4, bgcolor: varAlpha(theme.vars.palette.common.blackChannel, 0.12), ...sx }} {...other}>
         <Box sx={{ gap: 1, display: 'flex', flexDirection: 'column' }}>
