@@ -18,6 +18,7 @@ const PageFive = lazy(() => import('src/pages/dashboard/five'));
 const PageSix = lazy(() => import('src/pages/dashboard/six'));
 
 const Payment = lazy(() =>import('src/pages/dashboard/payment'));
+const OrderDetails = lazy(() => import('src/pages/order/order-details'));
 // ----------------------------------------------------------------------
 
 const layoutContent = (
@@ -48,6 +49,12 @@ export const dashboardRoutes = [
         path:'payment',
         children: [
           { element:<Payment />, index:true},
+        ]
+      },
+      {
+        path:'order',
+        children: [
+          { element:< OrderDetails />, index:true},
         ]
       }
     ],

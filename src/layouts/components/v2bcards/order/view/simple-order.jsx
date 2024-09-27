@@ -16,6 +16,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import axios, { endpoints } from 'src/utils/axios';
 import { TABLE_HEAD, STATUS_OPTIONS, getStatusText } from 'src/layouts/components/table'; // Import constants
 import { fYuan } from 'src/utils/format-number';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
+
 
 export function SimpleOrderTable() {
   const [status, setStatus] = useState('all');
@@ -192,7 +194,7 @@ const statusCounts = getStatusCounts();
       >
         <MenuItem onClick={() => {
           // Preview action
-          navigate('/order/order-details', {
+          navigate('/dashboard/order', {
             
           });
         }}>

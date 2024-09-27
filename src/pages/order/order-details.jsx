@@ -4,6 +4,7 @@ import { CONFIG } from 'src/config-global';
 import { EmptyContent } from 'src/layouts/components/empty-content';
 
 import { DashboardContent } from 'src/layouts/dashboard';
+import ProductOrderPage from './order-view';
 
 // ----------------------------------------------------------------------
 
@@ -19,7 +20,7 @@ export default function Page() {
 
       <DashboardContent>
 
-        <EmptyContent />
+        <ProductOrderPage />
       
       </DashboardContent>
     </>
